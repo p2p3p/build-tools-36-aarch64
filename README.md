@@ -8,7 +8,7 @@ This repo contains:
 - `docs/` — build notes, error cookbook, and upgrade notes (incl. future 37.0.0)
 - `templates/android-sdk-tools-min/` — minimal reference copies of the key upstream files we patched (optional; patch is canonical).
 
-## Quick start (fresh Debian, network required)
+## Quick start (performed inside a Debian container, network required)
 
 ```bash
 cd /root/workspace/build-tools-36-aarch64
