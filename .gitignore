@@ -1,0 +1,15 @@
+# generated / local
+work/
+downloads/
+.DS_Store
+
+# build outputs
+**/build/
+
+# core dumps
+core
+core.*
+
+# editor
+.vscode/
+.idea/
