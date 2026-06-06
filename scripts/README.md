@@ -1,34 +1,37 @@
 # scripts/
 
-Repro scripts (network-based) to rebuild and install build-tools 36.0.0 for aarch64.
+可重现的（基于网络的）构建脚本，用于在 Termux (aarch64) 上构建并安装 build-tools 36.0.0。所有外部路径均为绝对路径，遵循 Android 官方标准。
 
-## Quick start (fresh Debian)
+## 快速开始（假设已进入项目根目录）
 
 ```bash
-cd /root/workspace/build-tools-36-aarch64
+# 进入脚本目录（相对路径）
+cd scripts
 
-# 0) deps
-./scripts/00_prereq.sh
+# 1. 安装依赖（Termux 使用 pkg）
+pkg update -y
+pkg install -y python openjdk-17 git make cmake ninja patchelf binutils
 
-# 0.5) (optional) fetch Android SDK + NDK automatically
-export ANDROID_SDK_ROOT=/root/workspace/android-sdk
-./scripts/05_fetch_ndk_sdk.sh
-export ANDROID_NDK_ROOT="$ANDROID_SDK_ROOT/ndk/29.0.14206865"  # see scripts/env.sh
+# 2. 设置 Android SDK 绝对路径
+export ANDROID_SDK_ROOT=/data/data/com.termux/files/home/android-sdk
 
-# 1) fetch sources
-./scripts/10_fetch_sources.sh
+# 3. 可选：自动下载 SDK 和 NDK
+./05_fetch_ndk_sdk.sh
 
-# 2) (optional) build lld if your NDK ld.lld is broken-arch
-./scripts/20_build_lld.sh
+# 4. 设置 NDK 绝对路径（根据实际版本调整）
+export ANDROID_NDK_ROOT=/data/data/com.termux/files/home/android-sdk/ndk/29.0.14206865
 
-# 3) patch + build android-sdk-tools
-./scripts/30_patch_and_build_sdk_tools.sh
+# 5. 获取源码
+./10_fetch_sources.sh
 
-# 4) install into ANDROID_SDK_ROOT/build-tools/36.0.0
-./scripts/40_install_build_tools_36.sh
+# 6. 可选：构建 lld
+./20_build_lld.sh
 
-# 5) verify
-./scripts/50_verify.sh
-```
+# 7. 构建 android-sdk-tools
+./30_patch_and_build_sdk_tools.sh
 
-If any path differs in your environment, adjust ANDROID_SDK_ROOT / ANDROID_NDK_ROOT.
+# 8. 安装到 $ANDROID_SDK_ROOT/build-tools/36.0.0
+./40_install_build_tools_36.sh
+
+# 9. 验证
+./50_verify.sh
